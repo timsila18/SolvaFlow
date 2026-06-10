@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAppUser } from "@/lib/auth";
 import { entityConfigs } from "@/lib/entities";
+import { manufacturingConfigs } from "@/lib/manufacturing";
 import { createAdminSupabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
@@ -11,7 +12,7 @@ export async function GET(request: NextRequest) {
   if (!query) return NextResponse.json({ results: [] });
 
   const admin = createAdminSupabase();
-  const results = await Promise.all(
+  const masterResults = await Promise.all(
     Object.values(entityConfigs).map(async (config) => {
       let dbQuery = admin
         .from(config.table)
@@ -24,5 +25,17 @@ export async function GET(request: NextRequest) {
     })
   );
 
-  return NextResponse.json({ results: results.flat() });
+  const manufacturingResults = await Promise.all(
+    Object.values(manufacturingConfigs).map(async (config) => {
+      const { data } = await admin
+        .from(config.table)
+        .select(`id, ${config.listFields.join(", ")}`)
+        .eq("tenant_id", auth.user.company_id)
+        .or(config.searchFields.map((field) => `${field}.ilike.%${query}%`).join(","))
+        .limit(5);
+      return (data ?? []).map((row) => ({ entity: config.key, title: row[config.listFields[0] as keyof typeof row], href: config.path, row }));
+    })
+  );
+
+  return NextResponse.json({ results: [...masterResults.flat(), ...manufacturingResults.flat()] });
 }
