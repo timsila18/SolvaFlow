@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Bell, LogOut, Search } from "lucide-react";
 import { navigation, entityConfigs } from "@/lib/entities";
 import { manufacturingNavigation } from "@/lib/manufacturing";
+import { inventoryNavigation } from "@/lib/inventory";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -73,6 +74,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
           <div className="px-3 pt-4 text-xs font-bold uppercase text-slate-400">Manufacturing</div>
           {manufacturingNavigation.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold text-slate-600",
+                  pathname === item.href && "bg-blue-50 text-solva-blue"
+                )}
+              >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
+          <div className="px-3 pt-4 text-xs font-bold uppercase text-slate-400">Inventory & Warehouse</div>
+          {inventoryNavigation.map((item) => {
             const Icon = item.icon;
             return (
               <Link

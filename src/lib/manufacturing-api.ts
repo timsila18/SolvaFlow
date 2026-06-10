@@ -206,9 +206,14 @@ export async function getMaterialAvailability(recipeVersionId: string, plannedQu
 
   if (error) throw new Error(error.message);
 
-  return (lines ?? []).map((line: any) => {
+  const balances = await Promise.all((lines ?? []).map((line: any) =>
+    admin.from("stock_balances").select("available_quantity, warehouses(warehouse_name)").eq("product_id", line.input_item_id).eq("qc_status", "Approved")
+  ));
+
+  return (lines ?? []).map((line: any, index: number) => {
     const required = Number(line.quantity_required ?? 0) * multiplier;
-    const available = 0;
+    const balanceRows = balances[index].data ?? [];
+    const available = balanceRows.reduce((sum: number, row: any) => sum + Number(row.available_quantity ?? 0), 0);
     return {
       item_id: line.input_item_id,
       item_name: line.products?.product_name ?? line.input_item_id,
@@ -216,7 +221,7 @@ export async function getMaterialAvailability(recipeVersionId: string, plannedQu
       required_quantity: required,
       available_quantity: available,
       shortage_quantity: Math.max(required - available, 0),
-      warehouse_location: null,
+      warehouse_location: balanceRows.map((row: any) => row.warehouses?.warehouse_name).filter(Boolean).join(", "),
       reorder_level: line.products?.reorder_level ?? 0,
       unit_of_measure_id: line.unit_of_measure_id
     };
