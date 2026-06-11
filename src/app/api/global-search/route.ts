@@ -4,6 +4,7 @@ import { entityConfigs } from "@/lib/entities";
 import { manufacturingConfigs } from "@/lib/manufacturing";
 import { inventoryConfigs } from "@/lib/inventory";
 import { salesDistributionConfigs } from "@/lib/sales-distribution";
+import { finalModuleConfigs } from "@/lib/collections";
 import { createAdminSupabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
@@ -65,5 +66,18 @@ export async function GET(request: NextRequest) {
     })
   );
 
-  return NextResponse.json({ results: [...masterResults.flat(), ...manufacturingResults.flat(), ...inventoryResults.flat(), ...salesDistributionResults.flat()] });
+  const finalModuleResults = await Promise.all(
+    Object.values(finalModuleConfigs).map(async (config) => {
+      if (!config.searchFields.length) return [];
+      const { data } = await admin
+        .from(config.table)
+        .select(`id, ${config.listFields.join(", ")}`)
+        .eq("tenant_id", auth.user.company_id)
+        .or(config.searchFields.map((field) => `${field}.ilike.%${query}%`).join(","))
+        .limit(5);
+      return (data ?? []).map((row) => ({ entity: config.key, title: row[config.listFields[0] as keyof typeof row], href: config.path, row }));
+    })
+  );
+
+  return NextResponse.json({ results: [...masterResults.flat(), ...manufacturingResults.flat(), ...inventoryResults.flat(), ...salesDistributionResults.flat(), ...finalModuleResults.flat()] });
 }

@@ -7,6 +7,7 @@ import { navigation, entityConfigs } from "@/lib/entities";
 import { manufacturingNavigation } from "@/lib/manufacturing";
 import { inventoryNavigation } from "@/lib/inventory";
 import { salesDistributionNavigation } from "@/lib/sales-distribution";
+import { aiNavigation, collectionsNavigation, enterpriseNavigation } from "@/lib/collections";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -32,7 +33,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-solva-soft">
-      <aside className="fixed inset-y-0 left-0 z-20 hidden w-72 border-r border-solva-line bg-white lg:block">
+      <aside className="fixed inset-y-0 left-0 z-20 hidden w-72 overflow-y-auto border-r border-solva-line bg-white lg:block">
         <div className="flex h-20 items-center border-b border-solva-line px-6">
           <div>
             <div className="text-xl font-black tracking-normal text-solva-ink">SolvaFlow</div>
@@ -119,6 +120,36 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   pathname === item.href && "bg-blue-50 text-solva-blue"
                 )}
               >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
+          <div className="px-3 pt-4 text-xs font-bold uppercase text-slate-400">Collections & Receivables</div>
+          {collectionsNavigation.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link key={item.href} href={item.href} className={cn("flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold text-slate-600", pathname === item.href && "bg-blue-50 text-solva-blue")}>
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
+          <div className="px-3 pt-4 text-xs font-bold uppercase text-slate-400">SolvaFlow AI</div>
+          {aiNavigation.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link key={item.href} href={item.href} className={cn("flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold text-slate-600", pathname === item.href && "bg-blue-50 text-solva-blue")}>
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
+          <div className="px-3 pt-4 text-xs font-bold uppercase text-slate-400">Enterprise</div>
+          {enterpriseNavigation.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link key={item.href} href={item.href} className={cn("flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold text-slate-600", pathname === item.href && "bg-blue-50 text-solva-blue")}>
                 <Icon className="h-4 w-4" />
                 {item.label}
               </Link>
