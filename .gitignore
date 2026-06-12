@@ -3,10 +3,11 @@ node_modules
 .env
 .env.local
 .vercel
+supabase/.temp
+supabase/APPLY_ALL_MIGRATIONS_PROMPTS_1_TO_5.sql
+supabase/*login_allocation*.csv
 dist
 coverage
 npm-debug.log*
 tsconfig.tsbuildinfo
 dev-server*.log
-
-.vercel
