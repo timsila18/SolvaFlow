@@ -45,7 +45,7 @@ export function LoginForm() {
         <input className="h-12 w-full rounded-xl border border-solva-line px-3 outline-none focus:border-solva-blue" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
       </label>
       <Button className="mt-6 h-12 w-full">Sign In</Button>
-      <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold text-slate-600">Secure tenant access with Supabase Auth, RLS, audit logging, and role-based permissions.</div>
+      <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold text-slate-600">Secure tenant access with protected sign-in, audit logging, and role-based permissions.</div>
     </form>
   );
 }

@@ -82,7 +82,7 @@ export function EntityPage({ entityKey }: { entityKey: EntityKey }) {
         <div>
           <div className="module-kicker">Master Data</div>
           <h1 className="mt-2 text-4xl font-black tracking-normal text-solva-ink">{config.title}</h1>
-          <p className="mt-2 max-w-2xl text-sm font-medium text-slate-600">Tenant-isolated records with audit logging, numbering rules, and Supabase RLS enforcement.</p>
+          <p className="mt-2 max-w-2xl text-sm font-medium text-slate-600">Tenant-isolated records with audit logging, numbering rules, and enterprise security.</p>
         </div>
         <form
           onSubmit={(event) => {

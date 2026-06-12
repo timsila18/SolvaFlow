@@ -50,7 +50,7 @@ export function DashboardClient() {
                 <span className="text-solva-blue">{String(value)}</span>
               </div>
             ))}
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500"><Database className="h-4 w-4" /> Tenant RLS is enforced at the database layer.</div>
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500"><Database className="h-4 w-4" /> Tenant isolation is enforced at the data layer.</div>
           </div>
         </section>
       </div>

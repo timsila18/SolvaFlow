@@ -63,9 +63,9 @@ export async function GET() {
     activities: activities ?? [],
     health: {
       database: "Connected",
-      auth: "Supabase Auth",
+      auth: "Secure Sign-In",
       storage: "Tenant Buckets",
-      rls: "Enabled"
+      tenantIsolation: "Enabled"
     }
   });
 }
