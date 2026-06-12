@@ -4,8 +4,19 @@
 
 :root {
   color-scheme: light;
-  --tenant-primary: #0b5cff;
-  --tenant-secondary: #08111f;
+  --tenant-primary: #0057ff;
+  --tenant-secondary: #050b14;
+  --solva-ink: #050b14;
+  --solva-text: #162236;
+  --solva-muted: #63728a;
+  --solva-line: #d7e0ec;
+  --solva-soft: #f3f6fb;
+  --solva-panel: #ffffff;
+  --solva-accent: #10b981;
+  --solva-warning: #f59e0b;
+  --solva-danger: #dc2626;
+  --solva-shadow: 0 20px 60px rgba(8, 17, 31, 0.10);
+  --solva-shadow-soft: 0 10px 30px rgba(8, 17, 31, 0.08);
 }
 
 * {
@@ -19,8 +30,13 @@ body {
 
 body {
   margin: 0;
-  background: #f6f8fb;
-  color: #08111f;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(243, 246, 251, 0.96) 36%, rgba(238, 243, 250, 0.96) 100%),
+    linear-gradient(90deg, rgba(0, 87, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(5, 11, 20, 0.035) 1px, transparent 1px);
+  background-size: auto, 56px 56px, 56px 56px;
+  color: var(--solva-text);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
 a {
@@ -32,4 +48,164 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+::selection {
+  background: rgba(0, 87, 255, 0.16);
+  color: var(--solva-ink);
+}
+
+@layer components {
+  .enterprise-shell {
+    color: var(--solva-text);
+  }
+
+  .enterprise-shell aside {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.55) transparent;
+  }
+
+  .enterprise-shell aside::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .enterprise-shell aside::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.45);
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+  }
+
+  .enterprise-shell input,
+  .enterprise-shell select,
+  .enterprise-shell textarea,
+  .auth-surface input {
+    border-color: #cfd9e8;
+    background-color: #ffffff;
+    color: var(--solva-ink);
+    box-shadow: 0 1px 0 rgba(8, 17, 31, 0.03);
+    transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+  }
+
+  .enterprise-shell input:focus,
+  .enterprise-shell select:focus,
+  .enterprise-shell textarea:focus,
+  .auth-surface input:focus {
+    border-color: var(--tenant-primary);
+    box-shadow: 0 0 0 4px rgba(0, 87, 255, 0.10);
+  }
+
+  .enterprise-shell label span,
+  .auth-surface label span {
+    color: #4f5f76;
+    letter-spacing: 0;
+  }
+
+  .enterprise-shell section {
+    border-color: rgba(150, 164, 184, 0.36);
+  }
+
+  .enterprise-shell section.rounded-md,
+  .enterprise-shell form.rounded-md {
+    border-radius: 14px;
+  }
+
+  .enterprise-shell section.bg-white,
+  .enterprise-shell form.bg-white {
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: var(--solva-shadow-soft);
+  }
+
+  .enterprise-shell table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .enterprise-shell thead {
+    background: linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+  }
+
+  .enterprise-shell th {
+    color: #52627a;
+    letter-spacing: 0;
+  }
+
+  .enterprise-shell tbody tr {
+    transition: background-color 150ms ease;
+  }
+
+  .enterprise-shell tbody tr:hover {
+    background: #f8fbff;
+  }
+
+  .enterprise-shell td {
+    color: #26364d;
+  }
+
+  .module-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--tenant-primary);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .module-kicker::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--solva-accent);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.13);
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(16, 185, 129, 0.24);
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.09);
+    color: #047857;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(150, 164, 184, 0.34);
+    background: #ffffff;
+    color: #40516b;
+    box-shadow: 0 8px 18px rgba(8, 17, 31, 0.06);
+    transition: transform 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .icon-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(0, 87, 255, 0.42);
+    color: var(--tenant-primary);
+  }
+
+  .auth-surface {
+    background:
+      linear-gradient(135deg, rgba(5, 11, 20, 0.94), rgba(5, 11, 20, 0.78)),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: auto, 48px 48px, 48px 48px;
+  }
+
+  .auth-surface form {
+    border-color: rgba(255, 255, 255, 0.20);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+  }
 }

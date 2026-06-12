@@ -37,20 +37,23 @@ export function ChangePasswordForm() {
   }
 
   return (
-    <form onSubmit={submit} className="w-full max-w-md rounded-md border border-solva-line bg-white p-6 shadow-panel">
-      <h1 className="text-3xl font-black">Change Password</h1>
-      <p className="mt-2 text-sm font-semibold text-slate-500">Set a private password before continuing.</p>
+    <form onSubmit={submit} className="w-full max-w-md rounded-2xl border border-solva-line bg-white p-7 shadow-panel">
+      <div className="mb-7">
+        <div className="module-kicker">Account Security</div>
+        <h1 className="mt-2 text-3xl font-black text-solva-ink">Change Password</h1>
+        <p className="mt-2 text-sm font-semibold text-slate-500">Set a private password before continuing.</p>
+      </div>
       {error && <div className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">{error}</div>}
       {message && <div className="mt-4 rounded-md bg-blue-50 px-3 py-2 text-sm font-semibold text-solva-blue">{message}</div>}
       <label className="mt-6 block">
         <span className="mb-1 block text-xs font-bold uppercase text-slate-500">New Password</span>
-        <input className="h-10 w-full rounded-md border border-solva-line px-3 outline-none focus:border-solva-blue" type="password" value={password} onChange={(event) => setPassword(event.target.value)} minLength={10} required />
+        <input className="h-12 w-full rounded-xl border border-solva-line px-3 outline-none focus:border-solva-blue" type="password" value={password} onChange={(event) => setPassword(event.target.value)} minLength={10} required />
       </label>
       <label className="mt-4 block">
         <span className="mb-1 block text-xs font-bold uppercase text-slate-500">Confirm Password</span>
-        <input className="h-10 w-full rounded-md border border-solva-line px-3 outline-none focus:border-solva-blue" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={10} required />
+        <input className="h-12 w-full rounded-xl border border-solva-line px-3 outline-none focus:border-solva-blue" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={10} required />
       </label>
-      <Button className="mt-6 w-full">Update Password</Button>
+      <Button className="mt-6 h-12 w-full">Update Password</Button>
     </form>
   );
 }

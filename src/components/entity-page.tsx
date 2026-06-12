@@ -77,11 +77,12 @@ export function EntityPage({ entityKey }: { entityKey: EntityKey }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div className="rounded-2xl border border-white/70 bg-white/75 p-5 shadow-panel backdrop-blur lg:p-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <div className="text-sm font-bold uppercase text-solva-blue">Master Data</div>
-          <h1 className="mt-1 text-3xl font-black tracking-normal">{config.title}</h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600">Tenant-isolated records with audit logging, numbering rules, and Supabase RLS enforcement.</p>
+          <div className="module-kicker">Master Data</div>
+          <h1 className="mt-2 text-4xl font-black tracking-normal text-solva-ink">{config.title}</h1>
+          <p className="mt-2 max-w-2xl text-sm font-medium text-slate-600">Tenant-isolated records with audit logging, numbering rules, and Supabase RLS enforcement.</p>
         </div>
         <form
           onSubmit={(event) => {
@@ -90,19 +91,20 @@ export function EntityPage({ entityKey }: { entityKey: EntityKey }) {
           }}
           className="flex gap-2"
         >
-          <input value={search} onChange={(event) => setSearch(event.target.value)} className="h-10 rounded-md border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" placeholder={`Search ${config.title.toLowerCase()}`} />
+          <input value={search} onChange={(event) => setSearch(event.target.value)} className="h-11 rounded-xl border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" placeholder={`Search ${config.title.toLowerCase()}`} />
           <Button className="bg-solva-ink">Search</Button>
         </form>
+        </div>
       </div>
 
       {error && <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</div>}
 
       <section className="rounded-md border border-solva-line bg-white shadow-panel">
-        <div className="flex items-center gap-3 border-b border-solva-line px-4 py-3">
-          <Plus className="h-4 w-4 text-solva-blue" />
+        <div className="flex items-center gap-3 border-b border-solva-line bg-slate-50/70 px-5 py-4">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-solva-blue"><Plus className="h-4 w-4" /></span>
           <h2 className="font-bold">{editingId ? `Edit ${config.singular}` : `Create ${config.singular}`}</h2>
         </div>
-        <form onSubmit={submit} className="grid gap-4 p-4 md:grid-cols-2 xl:grid-cols-3">
+        <form onSubmit={submit} className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-3">
           {visibleFields.map((field) => (
             <label key={field.key} className={field.type === "textarea" ? "md:col-span-2 xl:col-span-3" : ""}>
               <span className="mb-1 block text-xs font-bold uppercase text-slate-500">{field.label}</span>
@@ -110,14 +112,14 @@ export function EntityPage({ entityKey }: { entityKey: EntityKey }) {
                 <textarea
                   value={form[field.key] ?? ""}
                   onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))}
-                  className="min-h-24 w-full rounded-md border border-solva-line px-3 py-2 text-sm outline-none focus:border-solva-blue"
+                  className="min-h-28 w-full rounded-xl border border-solva-line px-3 py-2 text-sm outline-none focus:border-solva-blue"
                   required={field.required}
                 />
               ) : field.type === "select" ? (
                 <select
                   value={form[field.key] ?? ""}
                   onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))}
-                  className="h-10 w-full rounded-md border border-solva-line px-3 text-sm outline-none focus:border-solva-blue"
+                  className="h-11 w-full rounded-xl border border-solva-line px-3 text-sm outline-none focus:border-solva-blue"
                   required={field.required}
                 >
                   <option value="">Select</option>
@@ -138,7 +140,7 @@ export function EntityPage({ entityKey }: { entityKey: EntityKey }) {
                   step={field.type === "currency" || field.type === "number" ? "0.01" : undefined}
                   value={form[field.key] ?? ""}
                   onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))}
-                  className="h-10 w-full rounded-md border border-solva-line px-3 text-sm outline-none focus:border-solva-blue"
+                  className="h-11 w-full rounded-xl border border-solva-line px-3 text-sm outline-none focus:border-solva-blue"
                   required={field.required}
                 />
               )}
@@ -160,7 +162,7 @@ export function EntityPage({ entityKey }: { entityKey: EntityKey }) {
       </section>
 
       <section className="overflow-hidden rounded-md border border-solva-line bg-white shadow-panel">
-        <div className="border-b border-solva-line px-4 py-3 font-bold">{config.title}</div>
+        <div className="border-b border-solva-line bg-slate-50/70 px-5 py-4 font-bold">{config.title}</div>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-solva-line text-sm">
             <thead className="bg-slate-50">
@@ -182,8 +184,8 @@ export function EntityPage({ entityKey }: { entityKey: EntityKey }) {
                     <td key={field} className="whitespace-nowrap px-4 py-3">{formatValue(row[field])}</td>
                   ))}
                   <td className="whitespace-nowrap px-4 py-3 text-right">
-                    <button onClick={() => edit(row)} className="mr-2 rounded-md border border-solva-line p-2 text-slate-700" title="Edit"><Edit3 className="h-4 w-4" /></button>
-                    <button onClick={() => remove(row.id)} className="rounded-md border border-red-200 p-2 text-red-700" title="Delete"><Trash2 className="h-4 w-4" /></button>
+                    <button onClick={() => edit(row)} className="icon-button mr-2" title="Edit"><Edit3 className="h-4 w-4" /></button>
+                    <button onClick={() => remove(row.id)} className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-red-200 bg-white text-red-700 shadow-sm transition hover:-translate-y-0.5" title="Delete"><Trash2 className="h-4 w-4" /></button>
                   </td>
                 </tr>
               ))}

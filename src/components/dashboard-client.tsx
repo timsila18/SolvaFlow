@@ -12,21 +12,26 @@ export function DashboardClient() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <div className="text-sm font-bold uppercase text-solva-blue">Executive Dashboard</div>
-        <h1 className="mt-1 text-3xl font-black">SolvaFlow Control Center</h1>
+      <div className="rounded-2xl border border-white/70 bg-white/75 p-6 shadow-panel backdrop-blur">
+        <div className="module-kicker">Executive Dashboard</div>
+        <h1 className="mt-2 text-4xl font-black text-solva-ink">SolvaFlow Control Center</h1>
+        <p className="mt-2 max-w-3xl text-sm font-medium text-slate-600">A live operating view across production, inventory, sales, collections, security, and tenant health.</p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {(data?.metrics ?? []).map((metric: any) => (
-          <div key={metric.label} className="rounded-md border border-solva-line bg-white p-5 shadow-panel">
-            <div className="text-sm font-semibold text-slate-500">{metric.label}</div>
-            <div className="mt-3 text-3xl font-black">{metric.value}</div>
+          <div key={metric.label} className="rounded-2xl border border-white/70 bg-white p-5 shadow-panel">
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-bold text-slate-500">{metric.label}</div>
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+            </div>
+            <div className="mt-3 text-4xl font-black text-solva-ink">{metric.value}</div>
+            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100"><div className="h-full w-2/3 rounded-full bg-solva-blue" /></div>
           </div>
         ))}
       </div>
       <div className="grid gap-6 xl:grid-cols-3">
         <section className="rounded-md border border-solva-line bg-white shadow-panel xl:col-span-2">
-          <div className="flex items-center gap-2 border-b border-solva-line px-4 py-3 font-bold"><Activity className="h-4 w-4" /> Recent Activities</div>
+          <div className="flex items-center gap-3 border-b border-solva-line bg-slate-50/70 px-5 py-4 font-bold"><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-solva-blue"><Activity className="h-4 w-4" /></span> Recent Activities</div>
           <div className="divide-y divide-solva-line">
             {(data?.activities ?? []).length === 0 ? <div className="p-4 text-sm text-slate-500">No audit activity yet.</div> : data.activities.map((item: any) => (
               <div key={item.id} className="px-4 py-3 text-sm">
@@ -37,7 +42,7 @@ export function DashboardClient() {
           </div>
         </section>
         <section className="rounded-md border border-solva-line bg-white shadow-panel">
-          <div className="flex items-center gap-2 border-b border-solva-line px-4 py-3 font-bold"><ShieldCheck className="h-4 w-4" /> System Health</div>
+          <div className="flex items-center gap-3 border-b border-solva-line bg-slate-50/70 px-5 py-4 font-bold"><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><ShieldCheck className="h-4 w-4" /></span> System Health</div>
           <div className="space-y-3 p-4">
             {Object.entries(data?.health ?? { database: "Loading" }).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between rounded-md bg-solva-soft px-3 py-2 text-sm">

@@ -66,10 +66,16 @@ async function ensureSingle(supabase, table, match, values, select = "*") {
 }
 
 async function getRoleId(supabase, roleKey) {
-  const { data, error } = await supabase.from("roles").select("id, role_key").eq("role_key", roleKey).maybeSingle();
+  const { data, error } = await supabase
+    .from("roles")
+    .select("id, role_key")
+    .eq("role_key", roleKey)
+    .order("is_global_role", { ascending: false })
+    .order("created_at", { ascending: true })
+    .limit(1);
   if (error) throw new Error(`Role lookup failed for ${roleKey}: ${error.message}`);
-  if (!data) throw new Error(`Missing role '${roleKey}'. Apply all Prompt 1-5 migrations before seeding.`);
-  return data.id;
+  if (!data?.[0]) throw new Error(`Missing role '${roleKey}'. Apply all Prompt 1-5 migrations before seeding.`);
+  return data[0].id;
 }
 
 async function ensureAuthUser(supabase, user) {

@@ -84,38 +84,40 @@ export function FinalModulePage({ entityKey }: { entityKey: FinalModuleKey }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+      <div className="rounded-2xl border border-white/70 bg-white/75 p-5 shadow-panel backdrop-blur lg:p-6">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
-          <div className="text-sm font-bold uppercase text-solva-blue">{config.module === "collections" ? "Collections & Receivables" : config.module === "ai" ? "SolvaFlow AI" : "Enterprise"}</div>
-          <h1 className="mt-1 text-3xl font-black tracking-normal">{config.title}</h1>
-          <p className="mt-2 max-w-3xl text-sm text-slate-600">Tenant-scoped records connected to audit logs, notifications, approvals, finance hooks, and reporting.</p>
+          <div className="module-kicker">{config.module === "collections" ? "Collections & Receivables" : config.module === "ai" ? "SolvaFlow AI" : "Enterprise"}</div>
+          <h1 className="mt-2 text-4xl font-black tracking-normal text-solva-ink">{config.title}</h1>
+          <p className="mt-2 max-w-3xl text-sm font-medium text-slate-600">Tenant-scoped records connected to audit logs, notifications, approvals, finance hooks, and reporting.</p>
         </div>
         <form onSubmit={(event) => { event.preventDefault(); loadRows(search); }} className="flex gap-2">
-          <input value={search} onChange={(event) => setSearch(event.target.value)} className="h-10 rounded-md border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" placeholder={`Search ${config.title.toLowerCase()}`} />
+          <input value={search} onChange={(event) => setSearch(event.target.value)} className="h-11 rounded-xl border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" placeholder={`Search ${config.title.toLowerCase()}`} />
           <Button className="bg-solva-ink">Search</Button>
         </form>
+        </div>
       </div>
 
       {error && <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</div>}
       {message && <div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">{message}</div>}
 
       <section className="rounded-md border border-solva-line bg-white shadow-panel">
-        <div className="border-b border-solva-line px-4 py-3 font-bold">{editingId ? `Edit ${config.singular}` : `Create ${config.singular}`}</div>
-        <form onSubmit={submit} className="grid gap-4 p-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="border-b border-solva-line bg-slate-50/70 px-5 py-4 font-bold">{editingId ? `Edit ${config.singular}` : `Create ${config.singular}`}</div>
+        <form onSubmit={submit} className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-3">
           {config.fields.map((field) => (
             <label key={field.key} className={field.type === "textarea" ? "md:col-span-2 xl:col-span-3" : ""}>
               <span className="mb-1 block text-xs font-bold uppercase text-slate-500">{field.label}</span>
               {field.type === "textarea" ? (
-                <textarea value={form[field.key] ?? ""} onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))} className="min-h-24 w-full rounded-md border border-solva-line px-3 py-2 text-sm outline-none focus:border-solva-blue" required={field.required} />
+                <textarea value={form[field.key] ?? ""} onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))} className="min-h-28 w-full rounded-xl border border-solva-line px-3 py-2 text-sm outline-none focus:border-solva-blue" required={field.required} />
               ) : field.type === "select" ? (
-                <select value={form[field.key] ?? ""} onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))} className="h-10 w-full rounded-md border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" required={field.required}>
+                <select value={form[field.key] ?? ""} onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))} className="h-11 w-full rounded-xl border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" required={field.required}>
                   <option value="">Select</option>
                   {(field.relation ? options[field.relation] ?? [] : (field.options ?? []).map((option) => ({ value: option, label: option }))).map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
                 </select>
               ) : field.type === "checkbox" ? (
                 <input type="checkbox" checked={Boolean(form[field.key])} onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.checked }))} className="h-5 w-5 rounded border-solva-line" />
               ) : (
-                <input type={field.type === "currency" || field.type === "number" ? "number" : field.type === "datetime" ? "datetime-local" : field.type} step={field.type === "currency" || field.type === "number" ? "0.01" : undefined} value={form[field.key] ?? ""} onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))} className="h-10 w-full rounded-md border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" required={field.required} />
+                <input type={field.type === "currency" || field.type === "number" ? "number" : field.type === "datetime" ? "datetime-local" : field.type} step={field.type === "currency" || field.type === "number" ? "0.01" : undefined} value={form[field.key] ?? ""} onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))} className="h-11 w-full rounded-xl border border-solva-line px-3 text-sm outline-none focus:border-solva-blue" required={field.required} />
               )}
             </label>
           ))}
@@ -127,7 +129,7 @@ export function FinalModulePage({ entityKey }: { entityKey: FinalModuleKey }) {
       </section>
 
       <section className="overflow-hidden rounded-md border border-solva-line bg-white shadow-panel">
-        <div className="border-b border-solva-line px-4 py-3 font-bold">{config.title}</div>
+        <div className="border-b border-solva-line bg-slate-50/70 px-5 py-4 font-bold">{config.title}</div>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-solva-line text-sm">
             <thead className="bg-slate-50">
@@ -155,7 +157,7 @@ export function FinalModulePage({ entityKey }: { entityKey: FinalModuleKey }) {
 }
 
 function IconButton({ title, onClick, icon, danger }: { title: string; onClick: () => void; icon: React.ReactNode; danger?: boolean }) {
-  return <button onClick={onClick} className={`rounded-md border p-2 ${danger ? "border-red-200 text-red-700" : "border-solva-line text-slate-700"}`} title={title}>{icon}</button>;
+  return <button onClick={onClick} className={danger ? "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-red-200 bg-white text-red-700 shadow-sm transition hover:-translate-y-0.5" : "icon-button"} title={title}>{icon}</button>;
 }
 
 function actionIcon(action: string) {
