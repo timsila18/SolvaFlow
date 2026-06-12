@@ -19,6 +19,10 @@ export function LoginForm() {
     });
     const payload = await response.json();
     if (!response.ok) return setError(payload.error || "Unable to sign in.");
+    if (payload.require_password_change) {
+      router.push("/change-password");
+      return;
+    }
     router.push("/dashboard");
   }
 
