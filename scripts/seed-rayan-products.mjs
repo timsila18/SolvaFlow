@@ -1,21 +1,11 @@
-import fs from "node:fs";
 import path from "node:path";
+import { config } from "dotenv";
 import { createClient } from "@supabase/supabase-js";
 
 const root = process.cwd();
 const envPath = path.join(root, ".env.local");
 
-function loadEnv(filePath) {
-  if (!fs.existsSync(filePath)) return;
-  const lines = fs.readFileSync(filePath, "utf8").split(/\r?\n/);
-  for (const line of lines) {
-    const match = line.match(/^\s*([^#=]+)=(.*)$/);
-    if (!match) continue;
-    if (!process.env[match[1]]) process.env[match[1]] = match[2].trim();
-  }
-}
-
-loadEnv(envPath);
+config({ path: envPath });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY;
