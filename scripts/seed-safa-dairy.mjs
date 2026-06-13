@@ -90,7 +90,7 @@ async function ensureAuthUser(supabase, user) {
   });
 
   if (!error) return data.user.id;
-  if (!/already registered|already exists|User already registered/i.test(error.message)) {
+  if (!/already registered|already exists|User already registered|already been registered/i.test(error.message)) {
     throw new Error(`Auth user create failed for ${user.proposed_login_email}: ${error.message}`);
   }
 
